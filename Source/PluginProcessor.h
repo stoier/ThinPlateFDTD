@@ -14,15 +14,15 @@
 //==============================================================================
 /**
 */
-class PlateMiniProjectAudioProcessor  : public juce::AudioProcessor
+class PlateAudioProcessor  : public juce::AudioProcessor
                             #if JucePlugin_Enable_ARA
                              , public juce::AudioProcessorARAExtension
                             #endif
 {
 public:
     //==============================================================================
-    PlateMiniProjectAudioProcessor();
-    ~PlateMiniProjectAudioProcessor() override;
+    PlateAudioProcessor();
+    ~PlateAudioProcessor() override;
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -66,17 +66,21 @@ public:
     
     juce::AudioProcessorValueTreeState tree{*this, nullptr, "Params", createParameterLayout()};
     
-    bool hit;
-    bool firstHit;
+    bool hit, firstHit;
+    bool bowStart, bowEnd, firstBow;
     int plateMaterialId;
+    int excTypeId;
+    int bellGrowthMenuId = 1;
+    bool tubeConn = false;
+    bool springConn = true;
     
 private:
     //==============================================================================
     
     double fs; // Sample rate
     float output;
-    
+
     std::shared_ptr<ThinPlate> thinPlate;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlateMiniProjectAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PlateAudioProcessor)
 };
